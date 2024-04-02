@@ -146,24 +146,21 @@ final class DetailPokemonViewController: UIViewController {
     
     private func setupStatsView() {
         guard let pokemon = pokemon else { return }
-        let heightStatView = StatView(amountStat: pokemon.height, statType: .height)
-        let weightStatView = StatView(amountStat: pokemon.weight, statType: .weight)
-        let attackStatView = StatView(amountStat: pokemon.attack, statType: .attack)
-        let defenseStatView = StatView(amountStat: pokemon.defense, statType: .defense)
-        stackView.addArrangedSubview(heightStatView)
-        stackView.addArrangedSubview(weightStatView)
-        stackView.addArrangedSubview(attackStatView)
-        stackView.addArrangedSubview(defenseStatView)
-        NSLayoutConstraint.activate([
-            heightStatView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 30),
-            heightStatView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -30),
-            weightStatView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 30),
-            weightStatView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -30),
-            attackStatView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 30),
-            attackStatView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -30),
-            defenseStatView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 30),
-            defenseStatView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -30),
-        ])
+        let statViews: [(stat: Int, type: StatType)] = [
+            (pokemon.height, .height),
+            (pokemon.weight, .weight),
+            (pokemon.attack, .attack),
+            (pokemon.defense, .defense)
+        ]
+        for (stat, type) in statViews {
+            let statView = StatView(amountStat: stat, statType: type)
+            stackView.addArrangedSubview(statView)
+            statView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                statView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 30),
+                statView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -30),
+            ])
+        }
     }
     
     private func setupCornerRadius() {

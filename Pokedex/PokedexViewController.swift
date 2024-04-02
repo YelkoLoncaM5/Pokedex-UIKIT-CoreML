@@ -141,6 +141,8 @@ extension PokedexViewController: ClassificationDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                     guard let self else { return }
                     self.pokedexView.resultLabel.text = "Es \(classification.0) - Seguridad del \(classification.1 * 100)%"
+                    self.navigationItem.title = "\(classification.0.uppercased())"
+                    self.navigationController?.navigationBar.backgroundColor = .systemGreen
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self.showPokemonDetail(named: classification.0)
                     }

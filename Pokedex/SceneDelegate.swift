@@ -13,22 +13,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Asegúrate de que esta escena sea una UIWindowScene
            guard let windowScene = (scene as? UIWindowScene) else { return }
-
-           // Crea una nueva instancia de UIWindow con el tamaño de la UIWindowScene
            let window = UIWindow(windowScene: windowScene)
-
-           // Crea la instancia del primer UIViewController
            let firstViewController = PokedexViewController()
-
-           // Crea y configura el UINavigationController con el primer UIViewController
            let navigationController = UINavigationController(rootViewController: firstViewController)
-
-           // Establece el UINavigationController como rootViewController de la ventana
            window.rootViewController = navigationController
-
-           // Hace que la ventana sea visible
            self.window = window
            window.makeKeyAndVisible()
     }
