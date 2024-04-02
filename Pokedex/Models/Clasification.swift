@@ -19,10 +19,6 @@ class Classification {
     
     weak var delegate: ClassificationDelegate?
     
-    init(delegate: ClassificationDelegate) {
-        self.delegate = delegate
-    }
-    
     private lazy var classificationRequest: VNCoreMLRequest? = {
         do {
             let modelConfiguration = MLModelConfiguration()
@@ -34,27 +30,28 @@ class Classification {
             request.imageCropAndScaleOption = .centerCrop
             return request
         } catch {
-            print("Error cargando el modelo: \(error)")
-            self.delegate?.didFinishClassification(withResult: .failure(error))
+            reportError("Error cargando el modelo ML: \(error)")
             return nil
         }
     }()
+    
+    init(delegate: ClassificationDelegate) {
+        self.delegate = delegate
+    }
     
     func updateClassifications(for image: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self,
                   let classificationRequest = self.classificationRequest,
                   let cgImage = image.cgImage else {
-                print("VNCoreMLRequest not properly initialized or cgImage was nil.")
+                self?.reportError("VNCoreMLRequest not properly initialized or cgImage was nil.")
                 return
             }
             let handler = VNImageRequestHandler(cgImage: cgImage, orientation: image.cgOrientation)
             do {
                 try handler.perform([classificationRequest])
             } catch {
-                DispatchQueue.main.async {
-                    self.delegate?.didFinishClassification(withResult: .failure(error))
-                }
+                self.reportError("Error performing classification: \(error.localizedDescription)")
             }
         }
     }
@@ -63,27 +60,26 @@ class Classification {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             guard let results = request.results as? [VNClassificationObservation] else {
-                self.delegate?.didFinishClassification(
-                    withResult: .failure(error ?? NSError(
-                        domain: "com.yelkoloncarich.Pokedex",
-                        code: -1,
-                        userInfo: [NSLocalizedDescriptionKey: "Failed to process the image."])
-                    )
-                )
+                self.reportError("Failed to process the image.")
                 return
             }
             guard let topResult = results.first else {
-                self.delegate?.didFinishClassification(
-                    withResult: .failure(NSError(
-                        domain: "com.yelkoloncarich.Pokedex",
-                        code: -1,
-                        userInfo: [NSLocalizedDescriptionKey: "No classification was possible."])
-                    )
-                )
+                self.reportError("No classification was possible.")
                 return
             }
             let classificationResult = (topResult.identifier, topResult.confidence)
             self.delegate?.didFinishClassification(withResult: .success(classificationResult))
+        }
+    }
+    
+    private func reportError(_ message: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.delegate?.didFinishClassification(withResult: .failure(
+                NSError(domain: "com.yelkoloncarich.Pokedex",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: message]
+                       )
+            ))
         }
     }
     
