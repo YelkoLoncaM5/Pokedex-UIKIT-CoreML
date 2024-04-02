@@ -1,0 +1,203 @@
+{
+  "results": [
+    {
+      "attack": 49,
+      "defense": 49,
+      "description": "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun’s rays,the seed grows progressively larger.",
+      "evolutionChain": [
+        {
+          "id": "2",
+          "name": "ivysaur"
+        },
+        {
+          "id": "3",
+          "name": "venusaur"
+        }
+      ],
+      "height": 7,
+      "id": 1,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2F2CF15848-AAF9-49C0-90E4-28DC78F60A78?alt=media&token=15ecd49b-89ff-46d6-be0f-1812c948e334",
+      "name": "bulbasaur",
+      "type": "poison",
+      "weight": 69
+    },
+    {
+      "attack": 52,
+      "defense": 43,
+      "defense:": 43,
+      "description": "The flame that burns at the tip of its tail is an indication of its emotions. The flame wavers when Charmander is enjoying itself. If the Pokémon becomes enraged, the flame burns fiercely.",
+      "evolutionChain": [
+        {
+          "id": "5",
+          "name": "charmeleon"
+        },
+        {
+          "id": "6",
+          "name": "charizard"
+        }
+      ],
+      "height": 6,
+      "id": 2,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FD574A34D-6904-4EE2-8744-CC168094724F?alt=media&token=605a11a7-86f7-40cf-9593-fe92c51ab53d",
+      "name": "charmander",
+      "type": "fire",
+      "weight": 85
+    },
+    {
+      "attack": 48,
+      "defense": 65,
+      "description": "Squirtle’s shell is not merely used for protection. The shell’s rounded shape and the grooves on its surface help minimize resistance in water, enabling this Pokémon to swim at high speeds.",
+      "evolutionChain": [
+        {
+          "id": "8",
+          "name": "wartortle"
+        },
+        {
+          "id": "9",
+          "name": "blastoise"
+        }
+      ],
+      "height": 5,
+      "id": 3,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FF0F9F418-BC72-40B8-BE22-F401D506185B?alt=media&token=2cee6cce-2256-43ad-a824-d97b8a646d37",
+      "name": "squirtle",
+      "type": "water",
+      "weight": 90
+    },
+    {
+      "attack": 55,
+      "defense": 40,
+      "description": "When several of these POKéMON gather, their electricity could build and cause lightning storms.",
+      "evolutionChain": [
+        {
+          "id": "25",
+          "name": "pikachu"
+        },
+        {
+          "id": "26",
+          "name": "raichu"
+        }
+      ],
+      "height": 4,
+      "id": 4,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2F62CDB87E-9A76-4184-B82A-4FB38CDA2BD0?alt=media&token=82726149-f9a6-4299-8837-6bae1ecb1081",
+      "name": "pikachu",
+      "type": "electric",
+      "weight": 60
+    },
+    {
+      "attack": 55,
+      "defense": 50,
+      "description": "Its genetic code is irregular. It may mutate if it is exposed to radiation from element STONEs.",
+      "evolutionChain": [
+        {
+          "id": "134",
+          "name": "vaporeon"
+        }
+      ],
+      "height": 3,
+      "id": 5,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FAFC7F2B7-B889-4F56-935A-9E95E00AD65B?alt=media&token=14a27205-6033-48ad-b4ce-1154876414f7",
+      "name": "eevee",
+      "type": "normal",
+      "weight": 65
+    },
+    {
+      "attack": 30,
+      "defense": 35,
+      "description": "Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.",
+      "evolutionChain": [
+        {
+          "id": "11",
+          "name": "metapod"
+        },
+        {
+          "id": "12",
+          "name": "butterfree"
+        }
+      ],
+      "height": 3,
+      "id": 6,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FA74C1300-1EA0-4ABE-A44E-A9BB9B806F2E?alt=media&token=4e796b54-f031-436e-8a5c-cdd376cf49c6",
+      "name": "caterpie",
+      "type": "bug",
+      "weight": 29
+    },
+    {
+      "attack": 45,
+      "defense": 40,
+      "description": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
+      "evolutionChain": [
+        {
+          "id": "17",
+          "name": "pidgeotto"
+        },
+        {
+          "id": "18",
+          "name": "pidgeot"
+        }
+      ],
+      "height": 3,
+      "id": 7,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FCA28BEF4-2B4E-4BF0-954E-4B62B4E0C26C?alt=media&token=3a49ac30-e5f6-4993-9f73-69ca684ee412",
+      "name": "pidgey",
+      "type": "flying",
+      "weight": 18
+    },
+    {
+      "attack": 60,
+      "defense": 44,
+      "description": "Moves silently and stealthily. Eats the eggs of birds, such as PIDGEY and SPEAROW, whole.",
+      "evolutionChain": [
+        {
+          "id": "24",
+          "name": "arbok"
+        }
+      ],
+      "height": 20,
+      "id": 8,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FDC7C10BE-B4CB-4A37-B1F7-B92838183B29?alt=media&token=09c3de8f-5a17-4c47-ad51-b2216eb9fb02",
+      "name": "ekans",
+      "type": "poison",
+      "weight": 69
+    },
+    {
+      "attack": 41,
+      "defense": 40,
+      "description": "At the time of birth, it has just one tail. The tail splits from its tip as it grows older.",
+      "evolutionChain": [
+        {
+          "id": "38",
+          "name": "ninetales"
+        }
+      ],
+      "height": 6,
+      "id": 9,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2F6FE62531-E086-4146-8152-86C6EE039455?alt=media&token=b2dc5a63-da88-423d-a95a-dcd2c1c15014",
+      "name": "vulpix",
+      "type": "fire",
+      "weight": 99
+    },
+    {
+      "attack": 50,
+      "defense": 55,
+      "description": "During the day, it keeps its face buried in the ground. At night, it wanders around sowing its seeds.",
+      "evolutionChain": [
+        {
+          "id": "44",
+          "name": "gloom"
+        },
+        {
+          "id": "45",
+          "name": "vileplume"
+        }
+      ],
+      "height": 5,
+      "id": 10,
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/pokedex-bb36f.appspot.com/o/pokemon_images%2FDBC53B42-02F4-4A7A-8A0C-7D787F654819?alt=media&token=ce172d4c-2d80-4014-9111-4f85aa2f5329",
+      "name": "oddish",
+      "type": "poison",
+      "weight": 54
+    }
+  ]
+}

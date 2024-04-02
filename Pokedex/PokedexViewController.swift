@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PokedexViewController.swift
 //  Pokedex
 //
 //  Created by Yelko Andrej Loncarich Manrique on 14/03/24.
@@ -8,11 +8,12 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+final class PokedexViewController: UIViewController {
     
     //MARK: - Properties
     
     let pokedexView = PokedexView()
+    var viewModel = PokemonViewModel()
     var classifier: Classification!
     var captureSession: AVCaptureSession!
     var stillImageOutput: AVCapturePhotoOutput!
@@ -45,19 +46,7 @@ class ViewController: UIViewController {
     
     @objc func didTapButton() {
         capturePhoto()
-        let gif = UIImage.gifImageWithName("charmanderGif")
-        pokedexView.loaderImage.image = gif
-        pokedexView.loaderImage.isHidden = false
-        pokedexView.captureImage.isHidden = true
-        pokedexView.resultLabel.isHidden = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            guard let self else { return }
-            self.pokedexView.loaderImage.isHidden = true
-            UIView.animate(withDuration: 0.5) {
-                self.pokedexView.captureImage.isHidden = false
-                self.pokedexView.resultLabel.isHidden = false
-            }
-        }
+        pokedexView.resultLabel.text = "Esperando..."
     }
     
     private func addClassifier() {
@@ -79,11 +68,22 @@ class ViewController: UIViewController {
         classifier.updateClassifications(for: image)
     }
     
+    private func showPokemonDetail(named pokemonName: String) {
+        guard let pokemon = viewModel.findPokemon(byName: pokemonName) else {
+            print("No se encontró el Pokémon con el nombre: \(pokemonName)")
+            return
+        }
+        let detailVC = DetailPokemonViewController()
+        detailVC.pokemon = pokemon
+        detailVC.color = viewModel.backgroundColor(forType: pokemon.type)
+        navigationController?.present(detailVC, animated: true)
+    }
+    
 }
 
 //MARK: - CameraConfiguration
 
-extension ViewController {
+extension PokedexViewController {
     
     private func addCameraConfig() {
         captureSession = AVCaptureSession()
@@ -109,23 +109,18 @@ extension ViewController {
     
     private func setupLivePreview() {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer.videoGravity = .resizeAspectFill // Usar .resizeAspectFill para llenar el área de enfoque
+        videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.connection?.videoOrientation = .portrait
         pokedexView.cameraView.layer.addSublayer(videoPreviewLayer)
-        // Iniciar la sesión de captura en una cola de fondo para evitar bloquear el hilo principal
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
             self.captureSession.startRunning()
-            // Una vez que la sesión está en marcha, configurar el frame de la capa de previsualización en el hilo principal
-            DispatchQueue.main.async { [weak self] in
-                guard let weakSelf = self else { return }
-                weakSelf.videoPreviewLayer.frame = weakSelf.pokedexView.cameraView.bounds
-                // Si necesitas que la capa de previsualización tenga un tamaño específico, como 320x320,
-                // y que esté centrada, puedes ajustar el frame aquí.
-                // Por ejemplo:
+            DispatchQueue.main.async {
+                self.videoPreviewLayer.frame = self.pokedexView.cameraView.bounds
                 let layerSize = CGSize(width: 320, height: 320)
-                weakSelf.videoPreviewLayer.frame = CGRect(
-                    x: (weakSelf.pokedexView.cameraView.bounds.width - layerSize.width) / 2,
-                    y: (weakSelf.pokedexView.cameraView.bounds.height - layerSize.height) / 2,
+                self.videoPreviewLayer.frame = CGRect(
+                    x: (self.pokedexView.cameraView.bounds.width - layerSize.width) / 2,
+                    y: (self.pokedexView.cameraView.bounds.height - layerSize.height) / 2,
                     width: layerSize.width,
                     height: layerSize.height
                 )
@@ -137,19 +132,23 @@ extension ViewController {
 
 //MARK: - ClassificationDelegate
 
-extension ViewController: ClassificationDelegate {
+extension PokedexViewController: ClassificationDelegate {
     
     func didFinishClassification(withResult result: Result<(String, Float), any Error>) {
         switch result {
         case .success(let classification):
             if classification.1 > 0.60 {
-                print("Clasificación lista \(classification.0) \(classification.1)")
-                pokedexView.resultLabel.text = "Es \(classification.0) reconocido con una seguridad del \(classification.1 * 100)%"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                    guard let self else { return }
+                    self.pokedexView.resultLabel.text = "Es \(classification.0) - Seguridad del \(classification.1 * 100)%"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.showPokemonDetail(named: classification.0)
+                    }
+                }
             } else {
                 pokedexView.resultLabel.text = "No pude reconocer a ese pokemon 🫠."
             }
         case .failure(let error):
-            print("Falló la clasificación: \(error.localizedDescription)")
             pokedexView.resultLabel.text = "Error: \(error.localizedDescription)"
         }
     }
@@ -158,7 +157,7 @@ extension ViewController: ClassificationDelegate {
 
 //MARK: - AVCapturePhotoCaptureDelegate
 
-extension ViewController: AVCapturePhotoCaptureDelegate {
+extension PokedexViewController: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let data = photo.fileDataRepresentation(),

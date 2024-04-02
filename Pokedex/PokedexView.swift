@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension ViewController {
+extension PokedexViewController {
     
     final class PokedexView: UIView {
         
@@ -111,30 +111,20 @@ extension ViewController {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
             imageView.image = UIImage(named: "estrella.png")
-            imageView.isHidden = true
+            imageView.isHidden = false
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
         }()
         
         private (set) var resultLabel: UILabel = {
             let label = UILabel()
-            label.text = "Pikachu ha sido reconocido con un 99.0% de certeza."
+            label.text = "Esperando para analizar."
             label.textColor = .black
             label.font = .systemFont(ofSize: 15, weight: .regular)
             label.numberOfLines = .zero
-            label.isHidden = true
+            label.isHidden = false
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
-        }()
-        
-        private (set) var loaderImage: UIImageView = {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            let gif = UIImage.gifImageWithName("pikachuGif")
-            imageView.image = gif
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.isHidden = false
-            return imageView
         }()
         
         // MARK: - Lifecycle
@@ -166,7 +156,6 @@ extension ViewController {
             messageView.addSubview(stackViewMessage)
             stackViewMessage.addArrangedSubview(captureImage)
             stackViewMessage.addArrangedSubview(resultLabel)
-            stackViewMessage.addArrangedSubview(loaderImage)
             NSLayoutConstraint.activate([
                 //Superior
                 scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -215,8 +204,7 @@ extension ViewController {
                 leftImage.widthAnchor.constraint(equalToConstant: 60),
                 rightImage.widthAnchor.constraint(equalToConstant: 60),
                 captureImage.heightAnchor.constraint(equalToConstant: 50),
-                captureImage.widthAnchor.constraint(equalToConstant: 50),
-                loaderImage.heightAnchor.constraint(equalToConstant: 80),
+                captureImage.widthAnchor.constraint(equalToConstant: 50)
             ])
             addBorder()
         }

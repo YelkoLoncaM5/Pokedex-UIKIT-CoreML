@@ -25,16 +25,15 @@ class Classification {
     
     private lazy var classificationRequest: VNCoreMLRequest? = {
         do {
-            // Cargando el modelo de ML con un nuevo enfoque que maneja errores
             let modelConfiguration = MLModelConfiguration()
             let model = try VNCoreMLModel(for: PokeClasificador1(configuration: modelConfiguration).model)
             let request = VNCoreMLRequest(model: model) { [weak self] request, error in
-                self?.processClassifications(for: request, error: error)
+                guard let self else { return }
+                self.processClassifications(for: request, error: error)
             }
             request.imageCropAndScaleOption = .centerCrop
             return request
         } catch {
-            // Manejo adecuado de errores al cargar el modelo
             print("Error cargando el modelo: \(error)")
             self.delegate?.didFinishClassification(withResult: .failure(error))
             return nil
@@ -42,12 +41,14 @@ class Classification {
     }()
     
     func updateClassifications(for image: UIImage) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            guard let classificationRequest = self.classificationRequest else {
-                print("VNCoreMLRequest not properly initialized.")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self,
+                  let classificationRequest = self.classificationRequest,
+                  let cgImage = image.cgImage else {
+                print("VNCoreMLRequest not properly initialized or cgImage was nil.")
                 return
             }
-            let handler = VNImageRequestHandler(cgImage: image.cgImage!, orientation: image.cgOrientation)
+            let handler = VNImageRequestHandler(cgImage: cgImage, orientation: image.cgOrientation)
             do {
                 try handler.perform([classificationRequest])
             } catch {
@@ -59,11 +60,12 @@ class Classification {
     }
     
     private func processClassifications(for request: VNRequest, error: Error?) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard let results = request.results as? [VNClassificationObservation] else {
                 self.delegate?.didFinishClassification(
                     withResult: .failure(error ?? NSError(
-                        domain: "com.yourdomain.pokedexML",
+                        domain: "com.yelkoloncarich.Pokedex",
                         code: -1,
                         userInfo: [NSLocalizedDescriptionKey: "Failed to process the image."])
                     )
@@ -73,7 +75,7 @@ class Classification {
             guard let topResult = results.first else {
                 self.delegate?.didFinishClassification(
                     withResult: .failure(NSError(
-                        domain: "com.yourdomain.pokedexML",
+                        domain: "com.yelkoloncarich.Pokedex",
                         code: -1,
                         userInfo: [NSLocalizedDescriptionKey: "No classification was possible."])
                     )
