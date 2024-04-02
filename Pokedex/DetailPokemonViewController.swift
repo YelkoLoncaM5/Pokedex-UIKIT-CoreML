@@ -189,7 +189,6 @@ extension DetailPokemonViewController {
         private let statTitleLabel: UILabel = {
             let label = UILabel()
             label.textColor = .gray
-            label.text = "Defense"
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -198,7 +197,6 @@ extension DetailPokemonViewController {
         private let statAmountLabel: UILabel = {
             let label = UILabel()
             label.textColor = .black
-            label.text = "23"
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
