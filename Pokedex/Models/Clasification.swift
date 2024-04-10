@@ -22,7 +22,7 @@ class Classification {
     private lazy var classificationRequest: VNCoreMLRequest? = {
         do {
             let modelConfiguration = MLModelConfiguration()
-            let model = try VNCoreMLModel(for: PokeClasificador1(configuration: modelConfiguration).model)
+            let model = try VNCoreMLModel(for: PokemonClasificador(configuration: modelConfiguration).model)
             let request = VNCoreMLRequest(model: model) { [weak self] request, error in
                 guard let self else { return }
                 self.processClassifications(for: request, error: error)
