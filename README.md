@@ -1,4 +1,4 @@
-# Pokémon Classifier :zap::fire::leaf::water:
+# Pokémon Classifier :zap::fire::leaves::sweat_drops:
 
 Este repositorio presenta una aplicación iOS innovadora diseñada para reconocer y clasificar imágenes de Pokémon usando la cámara del dispositivo. El proyecto aprovecha la potencia de CoreML para ofrecer una clasificación en tiempo real de imágenes entre cuatro populares Pokémon: Charmander, Bulbasaur, Squirtle, y Pikachu, implementando UIKit para una interfaz de usuario interactiva y atractiva.
 
@@ -21,4 +21,4 @@ Este repositorio presenta una aplicación iOS innovadora diseñada para reconoce
 - Acceso a la cámara del dispositivo.
 
 ### Visualización de la aplicación :iphone:
-![App Pantallas]()
+![App Pantallas](https://github.com/YelkoLoncaM5/Pokedex-UIKIT-CoreML/blob/main/AppInterfaz.png)
